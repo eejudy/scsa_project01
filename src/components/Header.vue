@@ -1,15 +1,21 @@
 <template>
-<header>
-  <h1>User List</h1>
-</header>
+  <v-toolbar color="info">
+    <v-toolbar-title><h1 style="cursor:pointer" @click="move">WGA</h1></v-toolbar-title>
+  </v-toolbar>
 </template>
 
 <script>
 
 export default {
-  name: 'Header',
+  name: "Header",
 
-  data: () => ({ 
+  data: () => ({
+    name: "",
   }),
-  }
+  methods: {
+    move: function () {
+      this.$router.push("/");
+    },
+  },
+};
 </script>

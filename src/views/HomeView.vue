@@ -1,70 +1,43 @@
 <template>
-  <v-container fluid>
-      <v-layout column>
-        <v-flex xs12>
-            <h3 class="subject">User CRUD</h3>
-        </v-flex>
-        <v-flex column>
-          <v-row>
-            <v-col cols="4" md="4">
-              <v-text-field v-model="username" :counter="15" label="Username" required></v-text-field>
-            </v-col>
-             <v-col cols="4" md="4">
-              <v-text-field v-model="age" label="Age" required></v-text-field>
-            </v-col>
-             <v-col cols="4" md="4">
-              <v-text-field v-model="city" :counter="15" label="City" required></v-text-field>
-            </v-col>
-          </v-row>
-            <v-form ref="form" v-model="valid" lazy-validation>
-            <v-btn @click="create" style="background:green">create</v-btn>
-             <v-btn @click="clear" style="background:red">clear</v-btn>
-            </v-form>
-        </v-flex>
+  <div>
+    <v-container>
+      <v-row class="text-center" style="margin-top: 300px">
+        <v-col class="mb-4">
+          <h1 class="display-2 font-weight-bold mb-3">게임 방법 소개</h1>
+        </v-col>
 
-        <v-flex class="userList" column>
-          <v-card max-width="600" tile>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>Title</v-list-item-title>
-                  <v-list-item-subtitle>content</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-
-        </v-flex>
-      </v-layout>
-  </v-container>
+        <v-col class="mb-5" cols="12" style="margin-top: 50px">
+          <h3 class="display-2 mb-3">
+            당신이 찬 공을 AI가 막을 수 있을까요?<br />
+            공을 넣는다면 점수를 획득하고, 계속 게임을 진행할 수 있습니다.<br />
+            랭킹에 있는 유저들보다 높은 점수를 획득한다면, 명예의 전당에 오를 수
+            있습니다!
+          </h3>
+          <div class="buttons">
+            <button @click="move" class="btn-hover color-9">
+              인간 VS AI 시작
+            </button>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
-import $ from 'jquery'
-import axios from 'axios'
+// import $ from 'jquery'
 export default {
-  name: 'HomeView',
+  name: "IntroView",
 
-  data: () => ({ 
+  data: () => ({
+    name: "",
   }),
-    created: function(){
-    this.getList()
+  methods: {
+    move: function () {
+      this.$router.push("/game");
+    },
   },
-  methods:{
-      getList(){
-        
-    }
-  }
-  }
+};
 </script>
 
-<style>
-.subject{
-  color:blue;
-  font-style:oblique;
-  padding:30px;
-  text-align:center;
-}
-
-.userList{
-  margin: 30px 0px 30px 0px;
-}
-</style>
+<style scoped></style>
