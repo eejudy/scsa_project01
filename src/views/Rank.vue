@@ -1,10 +1,10 @@
 <template>
   <div>
     <v-container>
-      <v-row class="text-center" style="margin-top: 300px">
+      <v-row class="text-center" style="margin-top: 150px">
         <v-col class="mb-4">
           <h1 class="display-2 font-weight-bold mb-3">명예의 전당</h1>
-          <table class="table" style="margin-top: 200px">
+          <table class="table" style="margin-top: 100px">
             <tbody>
               <tr v-for="(item, idx) in rankers">
                 <th v-if="idx < 3" scope="row">

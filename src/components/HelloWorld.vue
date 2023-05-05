@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <v-row class="text-center" style="margin-top: 200px">
+      <v-row class="text-center" style="margin-top: 150px">
         <v-col class="mb-4">
           <h1 class="display-2 font-weight-bold mb-3">
             닉네임을 입력해주세요<br />
@@ -9,7 +9,7 @@
           </h1>
         </v-col>
 
-        <v-col class="mb-5" cols="12" style="margin-top: 200px">
+        <v-col class="mb-5" cols="12" style="margin-top: 0px">
           <v-text-field
             clearable
             ref="name"
@@ -71,6 +71,10 @@ export default {
 </script>
 
 <style>
+.container {
+	height: 100vh;
+    	width: 100vw;
+}
 @font-face {
   font-family: "D2Coding";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff")
@@ -80,7 +84,7 @@ export default {
 }
 
 body {
-  font-size: 50px;
+  font-size: 30px;
   font-family: "D2Coding";
 }
 * {
@@ -90,7 +94,7 @@ body {
 }
 
 .buttons {
-  margin: 10%;
+  margin: 0%;
   text-align: center;
 }
 
