@@ -4,8 +4,8 @@
       <v-row class="text-center" style="margin-top: 200px">
         <v-col class="mb-4">
           <h1 class="display-2 font-weight-bold mb-3">
-            이름 또는 닉네임을 입력해주세요<br />
-            Please input your name or nickname
+            닉네임을 입력해주세요<br />
+            Please input your nickname
           </h1>
         </v-col>
 
@@ -34,6 +34,7 @@
 
 <script>
 // import $ from 'jquery'
+import axios from "axios";
 export default {
   name: "HelloWorld",
 
@@ -45,11 +46,23 @@ export default {
       this.$router.push("/rank");
     },
     register() {
+      let url = "http://127.0.0.1:8000/user/";
       const vm = this;
       if (vm.name.length == 0) {
         Swal.fire({
           icon: "warning",
           html: "<h2>닉네임을 입력해주세요</h2>",
+        });
+      } else {
+        let param = {
+          username: vm.name,
+          age: 100,
+          city: "N",
+        };
+        axios.post(url, param).then(function (response) {
+          if (response.status == 201) {
+            vm.move();
+          }
         });
       }
     },
@@ -121,5 +134,8 @@ body {
     #3f86ed
   );
   box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+}
+.v-text-field input {
+  font-size: 50px;
 }
 </style>

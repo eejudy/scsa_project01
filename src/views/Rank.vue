@@ -14,8 +14,8 @@
                   />
                 </th>
                 <th v-else scope="row">{{ idx + 1 }}</th>
-                <td>{{ item.nickname }}</td>
-                <td>{{ item.score }}점</td>
+                <td>{{ item.username }}</td>
+                <td>{{ item.age }}점</td>
               </tr>
             </tbody>
           </table>
@@ -29,13 +29,17 @@
 </template>
 
 <script>
-// import $ from 'jquery'
+import axios from "axios";
 export default {
   name: "Game",
-
+  created() {
+    const vm = this;
+    vm.getData();
+  },
   data: () => ({
     name: "",
-    rankers: [
+    rankers: [],
+    users: [
       { nickname: "강아지", score: "1000" },
       { nickname: "고양이", score: "800" },
       { nickname: "라마", score: "500" },
@@ -48,6 +52,13 @@ export default {
   methods: {
     move: function () {
       this.$router.push("/");
+    },
+    getData() {
+      let url = "http://127.0.0.1:8000/user/";
+      const vm = this;
+      axios.get(url).then(function (response) {
+        vm.rankers = response.data;
+      });
     },
   },
 };
