@@ -16,6 +16,7 @@ axios.get(url)
 .catch(function(response){
   console.log(response);
 })
-createApp(App).use(router)
+createApp(App)
+  .use(router)
   .use(vuetify)
   .mount('#app')

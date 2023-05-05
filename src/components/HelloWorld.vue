@@ -22,7 +22,9 @@
             style="font-size: 100px"
           ></v-text-field>
           <div class="buttons">
-            <button @click="move" class="btn-hover color-9">명예의 전당</button>
+            <button @click="register" class="btn-hover color-9">
+              명예의 전당 등록
+            </button>
           </div>
         </v-col>
       </v-row>
@@ -42,6 +44,15 @@ export default {
     move: function () {
       this.$router.push("/rank");
     },
+    register() {
+      const vm = this;
+      if (vm.name.length == 0) {
+        Swal.fire({
+          icon: "warning",
+          html: "<h2>닉네임을 입력해주세요</h2>",
+        });
+      }
+    },
   },
 };
 </script>
@@ -56,7 +67,7 @@ export default {
 }
 
 body {
-   font-size: 50px;
+  font-size: 50px;
   font-family: "D2Coding";
 }
 * {
