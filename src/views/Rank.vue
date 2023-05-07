@@ -15,7 +15,7 @@
                 </th>
                 <th v-else scope="row">{{ idx + 1 }}</th>
                 <td>{{ item.username }}</td>
-                <td>{{ item.age }}점</td>
+                <td>{{ item.score }}점</td>
               </tr>
             </tbody>
           </table>

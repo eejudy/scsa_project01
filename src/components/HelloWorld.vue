@@ -56,7 +56,7 @@ export default {
       } else {
         let param = {
           username: vm.name,
-          age: 100,
+          score: 10000,
           city: "N",
         };
         axios.post(url, param).then(function (response) {
