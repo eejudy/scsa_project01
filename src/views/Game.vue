@@ -1,48 +1,58 @@
 <template>
-    <v-container class="container">
-      <div class="main">
+  <v-container class="container">
+    <img class="mouse-img" id="goal" :src="require('@/assets/goal.png')" />
+    <v-row class="text-center" style="margin-top: 50px">
+      <v-col class="mb-4">
+        <h1 class="display-2 font-weight-bold mb-3"></h1>
+        <!-- <div
+          class="btn-group"
+          role="group"
+          style="width:170px;height:100px;"
+          aria-label="Basic checkbox toggle button group"
+          v-for="(item, idx) in numList"
+        > -->
+        <div style="width:170px;height:100px;" v-for="(item, idx) in numList" class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+          <!-- <input
+            type="checkbox"
+            class="btn-check"
+            v-bind:id="`btn${item}`"
+            autocomplete="off"
+          /> -->
+           <button style="font-size:50px;" v-bind:id="`btn${item}`" type="button" class="btn btn-outline-primary">{{item}}</button>
+          <!-- <label style="font-size:50px;" class="btn btn-outline-primary" :for="`btn${item}`">{{item}}</label> -->
+        </div>
+        
+ <div>
+    <v-btn-toggle
+      v-model="toggle"
+      color="info"
+      variant="outlined"
+      style="height:150px;" 
+    >
+        <v-btn  style="font-size:50px;width:170px;" v-bind:id="`btn${item}`" v-for="(item, idx) in numList" >{{item}}</v-btn>
+      
+  
+    </v-btn-toggle>
+  </div>
 
-      </div>
-     <v-img
-          :src="require('../assets/soccer.png')"
-          class="soccer"
-          contain
-          height="50px"
-        />
-      <canvas
-        id="drawCanvas"
-        @click="showColor(e)"
-        width="200"
-        height="200"
-        style="margin-top:80px;"
-      ></canvas>
-      <v-row class="text-center" style="margin-top: 300px">
-        <v-col class="mb-4">
-          <h1 class="display-2 font-weight-bold mb-3"></h1>
-          <div class="buttons">
-            <button
-              @click="move"
-              style="visibility: hidden"
-              class="btn-hover color-9"
-            ></button>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
+
+        <div class="buttons">
+          <button @click="move" class="btn-hover color-9">닉네임 등록</button>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 // import $ from 'jquery'
 export default {
   name: "Game",
-  mounted() {
-    var canvas = document.getElementById("drawCanvas");
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "rgb(200,0,0)";
-    ctx.fillRect(10, 10, 50, 50);
-},
+  mounted() {},
   data: () => ({
     name: "",
+    numList: [1,2,3,4,5,6,7],
+    toggle:null,
   }),
   methods: {
     move: function () {
@@ -54,23 +64,30 @@ export default {
 </script>
 
 <style scoped>
-.main{
-	width: 100%;
-    	height: 100%;
-    	margin: 0 auto;
-    
-     background-image: url("@/assets/goal.jpg");
-    	background-repeat: no-repeat;
-    	background-position: center center;
-    	backgorund-size: 100% 100%;
-}
-.soccer{
+/* .mouse-img { */
+
+/* width: 100px; */
+/* height: 100px; */
+/* margin: 0 auto; */
+
+/* background-image: url("@/assets/goal.png"); */
+/* background-repeat: no-repeat; */
+/* background-position: center center; */
+/* background-size: 1500px; */
+/* background-size: cover;  */
+/* } */
+.soccer {
   margin-top: 340px;
   margin-right: 870px;
-  
 }
 .container {
-	height: 100vh;
-    	width: 100vw;
+  height: 100vh;
+  width: 100vw;
+}
+.mouse-img {
+  width: 50%;
+  margin: auto;
+  display: block;
+  margin-top: 50px;
 }
 </style>
