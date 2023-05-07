@@ -14,7 +14,7 @@
             clearable
             ref="name"
             required
-            maxlength="20"
+            maxlength="15"
             color="blue darken-2"
             v-model="name"
             label=""
