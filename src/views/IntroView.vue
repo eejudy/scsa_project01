@@ -61,11 +61,16 @@ export default {
           score: 21000,
           city: "N",
         };
-        axios.post(url, param).then(function (response) {
-          if (response.status == 201) {
-            vm.move();
-          }
+        axios.post(url, param)
+        .then(function (response) {
+          vm.move();
+        })
+        .catch(function(response){
+          Swal.fire({
+          icon: "warning",
+          html: "<h2>중복된 닉네임입니다. 닉네임을 다시 입력해주세요</h2>",
         });
+        })
       }
     },
   },
