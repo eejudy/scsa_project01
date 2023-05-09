@@ -114,3 +114,36 @@ body {
     z-index:1;
     left: -36px;
 }
+
+.soccer {
+  margin-top: 340px;
+  margin-right: 870px;
+}
+.container {
+  height: 100vh;
+  width: 100vw;
+}
+.mouse-img {
+  width: 70%;
+  margin: auto;
+  display: block;
+  float: right;
+  /* width: 990px; */
+  /* height:490px; */
+  display: block;
+}
+
+.intro-img {
+  width: 27%;
+  margin: auto;
+  display: block;
+  /* width: 990px; */
+  height: 100%;
+  margin-top: 105px;
+  display: block;
+  float: left;
+}
+
+#all_btn{
+  height: 150px
+}
