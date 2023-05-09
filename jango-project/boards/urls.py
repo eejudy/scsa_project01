@@ -7,4 +7,5 @@ router.register('user', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path("rank/", views.ranking),
 ]

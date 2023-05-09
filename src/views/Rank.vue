@@ -8,7 +8,7 @@
             style="margin-left: 50px"
             v-for="(item, idx) in topRankers"
           >
-            <v-img :src="require(`../assets/${idx + 1}.png`)" height="100" />
+            <v-img :src="require(`../assets/rank/${idx + 1}.png`)" height="100" />
             <div class="card-body">
               <h1>{{ item.username }}</h1><br>
               <h4 class="card-text" style="color:#3f86ed">{{ item.score }}점</h4>
@@ -34,40 +34,12 @@
         </tr>
       </tbody>
     </table>
-
+    <div class="buttons">
+      <h1>{{username}}님은 {{ myRank }}위입니다.</h1>
+    </div>
     <div class="buttons">
       <button @click="move" class="btn-hover color-9">홈으로 이동</button>
     </div>
-
-    <!-- <div>
-      <v-container>
-        <v-row class="text-center" style="margin-top: 150px">
-          <v-col class="mb-4">
-            <table class="table" style="margin-top: 100px">
-              <thead>
-                <tr>
-                  <th>순위</th>
-                  <th>닉네임</th>
-                  <th>점수</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, idx) in rankers">
-                  <td>{{ idx + 4 }}</td>
-                  <td>{{ item.username }}</td>
-                  <td>{{ item.score }}점</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="buttons">
-              <button @click="move" class="btn-hover color-9">
-                홈으로 이동
-              </button>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div> -->
   </v-container>
 </template>
 
@@ -78,11 +50,14 @@ export default {
   created() {
     const vm = this;
     vm.getData();
+    vm.getMyRank();
   },
   data: () => ({
     name: "",
     rankers: [],
     topRankers: [],
+    myRank:0,
+    username:''
   }),
   methods: {
     move: function () {
@@ -103,8 +78,14 @@ export default {
           }
         }
       });
-      console.log(vm.topRankers);
-      console.log(vm.rankers);
+    },
+    getMyRank(){
+      let url = "http://127.0.0.1:8000/rank/";
+      const vm = this;
+      axios.get(url).then(function (response) {
+        vm.myRank = response.data.cnt
+        vm.username = response.data.username
+      });
     },
   },
 };
