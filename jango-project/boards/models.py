@@ -8,3 +8,5 @@ class User(models.Model):
     score = models.IntegerField()
     # city = models.CharField(max_length=15)
 
+class Result(models.Model):
+    num = models.IntegerField()
