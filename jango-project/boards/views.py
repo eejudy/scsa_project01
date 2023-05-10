@@ -43,10 +43,10 @@ def check_duplicate(request):
 
     for n in alreadyIN:
         if n.username == currIN:
-            data = {'exp':'already exist'}
+            data = {'check':False}
             return Response(data)
 
-    data = {'exp':'not exist'}
+    data = {'check':True}
     return Response(data)
 
 def index(request):
