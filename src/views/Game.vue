@@ -69,7 +69,6 @@
 import axios from "axios";
 export default {
   name: "Game",
-  mounted() {},
   created() {
     const vm = this;
     vm.callF();
@@ -209,4 +208,5 @@ button {
   border-color: rgba(65, 132, 234, 0.75);
   border-width: 3px;
 }
+
 </style>
