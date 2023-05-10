@@ -9,6 +9,17 @@
             v-for="(item, idx) in topRankers"
           >
             <v-img
+            v-if="topRankers.length==1"
+              :src="require(`../assets/rank/n${idx+2}.png`)"
+              height="100"
+            />
+            <v-img
+            v-else-if="topRankers.length==2"
+              :src="require(`../assets/rank/n${idx+1}.png`)"
+              height="100"
+            />
+            <v-img
+            v-if="topRankers.length>=3"
               :src="require(`../assets/rank/${idx + 1}.png`)"
               height="100"
             />
@@ -80,13 +91,14 @@ export default {
       let url = "http://127.0.0.1:8000/user/";
       const vm = this;
       axios.get(url).then(function (response) {
-        for (var i = 0; i < response.data.length; i++) {
+        let data = response.data
+        for (var i = 0; i < data.length; i++) {
           if (i == 1) {
-            vm.topRankers.unshift(response.data[i]);
+            vm.topRankers.unshift(data[i]);
           } else if (i < 3) {
-            vm.topRankers.push(response.data[i]);
+            vm.topRankers.push(data[i]);
           } else {
-            vm.rankers.push(response.data[i]);
+            vm.rankers.push(data[i]);
           }
         }
       });

@@ -27,31 +27,26 @@
                 캐릭터를 선택해주세요
               </h1>
               <div class="py-5">
-                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                    <div
-                      class="col"
-                      v-for="item in characters"
-                      v-bind:key="item"
-                    >
-                      <div class="card">
-                        <v-img
-                          @click="select(item)"
-                          style="cursor: pointer;"
-                          :src="require(`../assets/character/${item}.png`)"
-                          height="100"
-                        />
-                      </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                  <div class="col" v-for="item in characters" v-bind:key="item">
+                    <div class="card">
+                      <v-img
+                        @click="select(item)"
+                        style="cursor: pointer"
+                        :src="require(`../assets/character/${item}.png`)"
+                        height="100"
+                      />
                     </div>
                   </div>
-                  <div class="buttons">
-                    <button @click="enter" class="btn-hover color-9">
-                      입장하기
-                    </button>
-                  </div>
+                </div>
+                <div class="buttons">
+                  <button @click="enter" class="btn-hover color-9">
+                    입장하기
+                  </button>
+                </div>
               </div>
             </v-col>
           </v-row>
-
         </v-col>
       </v-row>
     </v-container>
@@ -65,46 +60,60 @@ export default {
 
   data: () => ({
     name: "",
-    characters: ["pikachu", "bullbasaur", "charmander", "meowth", "eevee", "jigglypuff"],
+    img: "",
+    characters: [
+      "pikachu",
+      "bullbasaur",
+      "charmander",
+      "meowth",
+      "eevee",
+      "jigglypuff",
+    ],
   }),
   methods: {
+    check() {
+      if (this.name.length == 0) {
+        Swal.fire({
+          icon: "warning",
+          html: "<h2>닉네임을 입력해주세요</h2>",
+        });
+        return false;
+      }
+
+      if (this.img.length == 0) {
+        Swal.fire({
+          icon: "warning",
+          html: "<h2>캐릭터를 선택해주세요</h2>",
+        });
+        return false;
+      }
+      
+      return true;
+    },
     enter() {
-      localStorage.setItem("username", this.name);
-      this.$router.push("/intro");
+      if (this.check()) {
+        const vm = this;
+        let url = "http://127.0.0.1:8000/check_duplicate/";
+        let param = { currIN: vm.name };
+        axios.post(url, param).then(function (response) {
+          if (response.data.check) {
+            localStorage.setItem("username", vm.name);
+            localStorage.setItem("img", vm.img);
+            vm.$router.push("/intro");
+          } else {
+            Swal.fire({
+              icon: "warning",
+              html: "<h2>중복된 닉네임입니다. 다시 입력해주세요.</h2>",
+            });
+          }
+        });
+      }
     },
     move: function () {
       this.$router.push("/rank");
     },
     select(item) {
-      console.log(item);
-      localStorage.setItem("img", item);
-    },
-    register() {
-      let url = "http://127.0.0.1:8000/user/";
-      const vm = this;
-      if (vm.name.length == 0) {
-        Swal.fire({
-          icon: "warning",
-          html: "<h2>닉네임을 입력해주세요</h2>",
-        });
-      } else {
-        let param = {
-          username: vm.name,
-          score: 21000,
-          city: "N",
-        };
-        axios
-          .post(url, param)
-          .then(function () {
-            vm.move();
-          })
-          .catch(function () {
-            Swal.fire({
-              icon: "warning",
-              html: "<h2>중복된 닉네임입니다. 닉네임을 다시 입력해주세요</h2>",
-            });
-          });
-      }
+      this.img = item;
     },
   },
 };

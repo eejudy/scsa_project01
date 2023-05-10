@@ -116,10 +116,6 @@ export default {
       let num = this.result.shift();
       console.log(num)
       if (item != num) {
-        // Swal.fire({
-        //   icon: "success",
-        //   html: "<h2>GOAL!</h2>",
-        // });
         let imgArray = new Array();
         imgArray[0]="04"
         imgArray[1]="05"
