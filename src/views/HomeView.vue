@@ -36,6 +36,7 @@
                       <div class="card">
                         <v-img
                           @click="select(item)"
+                          style="cursor: pointer;"
                           :src="require(`../assets/character/${item}.png`)"
                           height="100"
                         />

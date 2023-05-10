@@ -3,6 +3,15 @@
     <div class="buttons">
       <button></button>
     </div>
+    
+    <!-- <v-btn
+              @click="
+                play(
+                  'http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3'
+                )
+              "
+            /> -->
+
     <div class="buttons">
       <div class="card">
         <div class="card-body">
@@ -57,9 +66,11 @@ export default {
   name: "Game",
   mounted() {},
   created(){
-    this.getData()
+    const vm = this
+    vm.callF()
   },
   data: () => ({
+    result: [],
     name: "",
     isFalse: false,
     score: 0,
@@ -69,20 +80,31 @@ export default {
     img: localStorage.getItem("img"),
   }),
   methods: {
+    play(sound) {
+      var audio = new Audio(sound);
+      audio.play();
+      // audio.pause();
+    },
     move: function () {
       //닉네임 입력 화면으로 이동
       this.$router.push("/intro");
     },
+    callF(){
+      const vm = this;
+      let num = 3
+      vm.result.push(num)
+    },
     getData() {
       let url = "http://127.0.0.1:8000/result_test/";
-      const vm = this;
+      const vm = this
       let param = {
           num: 5
         };
         axios
           .post(url, param)
           .then(function (response) {
-            console.log(response)
+            let num = response.data.num
+            vm.result.push(num)
           })
           .catch(function (response) {
             console.log('fail')
@@ -90,16 +112,21 @@ export default {
     },
     goal(item) {
       const vm = this;
-      let num = 3;
-      console.log(item);
+      vm.getData()
+      let num = this.result.shift();
+      console.log(num)
       if (item != num) {
         // Swal.fire({
         //   icon: "success",
         //   html: "<h2>GOAL!</h2>",
         // });
-
-        const goal = document.getElementById("intro");
-        intro.setAttribute("src", require("@/assets/game/g2.png"));
+        let imgArray = new Array();
+        imgArray[0]="04"
+        imgArray[1]="05"
+        let imgNum = Math.round(Math.random()*1)
+        let target = imgArray[imgNum]
+        intro.setAttribute("src", require(`@/assets/game/g${item}.png`));
+        setTimeout(() =>  intro.setAttribute("src", require(`@/assets/game/${target}.png`)), 1000);
         vm.score += 10;
       } else {
         vm.isFalse = true
@@ -107,8 +134,9 @@ export default {
         //   icon: "error",
         //   html: "<h2>골키퍼가 공을 막았습니다</h2>",
         // });
+        intro.setAttribute("src", require(`@/assets/game/g${item}.png`));
+        setTimeout(() =>  intro.setAttribute("src", require("@/assets/game/03.png")), 1000);
         const target = document.getElementById("all_btn");
-        console.log(target)
         target.disabled = true;
         setTimeout(() => this.$router.push("/rank"), 2000);
       }
@@ -127,6 +155,6 @@ h5 {
 }
 
 button{
-  font-size: 50px; width: 190px; margin-top: 50px
+  font-size: 50px; width: 185px; margin-top: 50px
 }
 </style>

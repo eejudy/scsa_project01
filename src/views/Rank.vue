@@ -80,7 +80,6 @@ export default {
       let url = "http://127.0.0.1:8000/user/";
       const vm = this;
       axios.get(url).then(function (response) {
-        console.log(response);
         for (var i = 0; i < response.data.length; i++) {
           if (i == 1) {
             vm.topRankers.unshift(response.data[i]);
