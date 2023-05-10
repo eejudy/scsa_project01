@@ -35,3 +35,19 @@ def result_test(request):
     num = request.data.get("num")
     d = {'num':num}
     return Response(d)
+
+@api_view(['POST','GET'])
+def check_duplicate(request):
+    alreadyIN = User.objects.all()
+    currIN = request.data.get('currIN')
+
+    for n in alreadyIN:
+        if n.username == currIN:
+            data = {'exp':'already exist'}
+            return Response(data)
+
+    data = {'exp':'not exist'}
+    return Response(data)
+
+def index(request):
+    return render(request, 'index.html') 
