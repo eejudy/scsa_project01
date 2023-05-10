@@ -24,7 +24,7 @@ def ranking(request):
     cnt = 0
     ranks = User.objects.order_by('id')
     curr_user = ranks.last()
-    for n in User.objects.order_by('-score'):
+    for n in User.objects.order_by('-score', '-id'):
         cnt += 1
         if n.username == curr_user.username:
             data = {'cnt':cnt, 'username': curr_user.username}
@@ -57,8 +57,7 @@ def min_score(request):
     if len(userdata)>=10:
         minn_temp = User.objects.order_by('-score')
         minn = minn_temp[9]
-        data = {'minn':minn.score}
-        return Response(data)
+        return Response(minn.score)
     return Response(minn)
 
 def index(request):

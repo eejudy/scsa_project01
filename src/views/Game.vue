@@ -1,9 +1,9 @@
 <template>
   <v-container class="container">
     <div class="buttons">
-      <button></button>
+      <h2 v-if="targetScore<=score && score!=0">명예의 전당에 올랐습니다!</h2>
+      <h2 v-else>{{targetScore-score}}점 획득시 명예의 전당에 오를 수 있습니다!</h2>
     </div>
-    
     <!-- <v-btn
               @click="
                 play(
@@ -26,6 +26,7 @@
           <h3 align="center">{{ score }}점</h3>
         </div>
       </div>
+      
       <img
         class="mouse-img"
         id="intro"
@@ -68,18 +69,30 @@ export default {
   created(){
     const vm = this
     vm.callF()
+    vm.getScore()
   },
   data: () => ({
     result: [],
     name: "",
     isFalse: false,
     score: 0,
+    targetScore: 0,
     numList: [1, 2, 3, 4, 5, 6, 7],
     toggle: null,
     name: localStorage.getItem("username"),
     img: localStorage.getItem("img"),
   }),
   methods: {
+    getScore(){
+      let url = "http://127.0.0.1:8000/min_score/";
+      const vm = this
+        axios
+          .get(url)
+          .then(function (response) {
+            vm.targetScore = response.data
+          })
+          console.log(vm.targetScore)
+    },
     play(sound) {
       var audio = new Audio(sound);
       audio.play();
@@ -110,6 +123,22 @@ export default {
             console.log('fail')
           });
     },
+    save(){
+      let url = "http://127.0.0.1:8000/user/";
+      const vm = this;
+      let param = {
+        "username":vm.name,
+        "score":vm.score
+      }
+      axios
+          .post(url, param)
+          .then(function (response) {
+            lconsole.log(response)
+          })
+          .catch(function (response) {
+            console.log('fail')
+          });
+    },
     goal(item) {
       const vm = this;
       vm.getData()
@@ -126,14 +155,12 @@ export default {
         vm.score += 10;
       } else {
         vm.isFalse = true
-        // Swal.fire({
-        //   icon: "error",
-        //   html: "<h2>골키퍼가 공을 막았습니다</h2>",
-        // });
         intro.setAttribute("src", require(`@/assets/game/g${item}.png`));
         setTimeout(() =>  intro.setAttribute("src", require("@/assets/game/03.png")), 1000);
         const target = document.getElementById("all_btn");
         target.disabled = true;
+        // 사용자 정보 DB에 저장
+        vm.save()
         setTimeout(() => this.$router.push("/rank"), 2000);
       }
     },
@@ -152,5 +179,11 @@ h5 {
 
 button{
   font-size: 50px; width: 185px; margin-top: 50px
+}
+
+.v-btn-group .v-btn {
+    border-radius: 0;
+    border-color: rgba(65, 132, 234, 0.75);
+    border-width: 3px;
 }
 </style>

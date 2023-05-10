@@ -5,9 +5,35 @@
         <div class="card-group">
           <div
             class="card"
-            style="margin-left: 50px"
+            style="margin-left: 50px;"
             v-for="(item, idx) in topRankers"
           >
+          <div v-if="item.username==username" style="background-color: rgba(65, 132, 234, 0.75);">
+            <v-img
+            v-if="topRankers.length==1"
+              :src="require(`../assets/rank/n${idx+2}.png`)"
+              height="100"
+            />
+            <v-img
+            v-else-if="topRankers.length==2"
+              :src="require(`../assets/rank/n${idx+1}.png`)"
+              height="100"
+            />
+            <v-img
+            v-if="topRankers.length>=3"
+              :src="require(`../assets/rank/${idx + 1}.png`)"
+              height="100"
+            />
+            <div class="card-body" style="color:white">
+              <h1>{{ item.username }}</h1>
+              <br />
+              <h4 class="card-text" style="color: white">
+                {{ item.score }}점
+              </h4>
+            </div>
+          </div>
+
+          <div v-else>
             <v-img
             v-if="topRankers.length==1"
               :src="require(`../assets/rank/n${idx+2}.png`)"
@@ -31,6 +57,8 @@
               </h4>
             </div>
           </div>
+
+          </div>
         </div>
       </v-col>
     </v-row>
@@ -47,10 +75,15 @@
               </tr>
             </thead>
             <tbody v-for="(item, idx) in rankers">
-              <tr>
+              <tr v-if="item.username==username" style="background-color: rgba(65, 132, 234, 0.75);">
                 <td>{{ idx + 4 }}</td>
                 <td>{{ item.username }}</td>
-                <td>{{ item.score }}</td>
+                <td>{{ item.score }}점</td>
+              </tr>
+              <tr v-else>
+                <td>{{ idx + 4 }}</td>
+                <td>{{ item.username }}</td>
+                <td>{{ item.score }}점</td>
               </tr>
             </tbody>
           </table>
