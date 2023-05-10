@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 class UserViewSet(viewsets.ModelViewSet):
     # queryset = User.objects.all()
-    queryset = User.objects.order_by('-score')[:10]
+    queryset = User.objects.order_by('-score', '-id')[:10]
     serializer_class = UserSerializer
     # max_score = User.objects.last()
 
@@ -49,5 +49,18 @@ def check_duplicate(request):
     data = {'check':True}
     return Response(data)
 
+@api_view(['POST','GET'])
+def min_score(request):
+    userdata = User.objects.order_by('id')
+    usercnt = userdata.last()
+    minn = 0
+    if len(userdata)>=10:
+        minn_temp = User.objects.order_by('-score')
+        minn = minn_temp[9]
+        data = {'minn':minn.score}
+        return Response(data)
+    return Response(minn)
+
 def index(request):
     return render(request, 'index.html') 
+
