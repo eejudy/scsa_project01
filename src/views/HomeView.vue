@@ -34,6 +34,7 @@
                         @click="select(item)"
                         style="cursor: pointer"
                         :src="require(`../assets/character/${item}.png`)"
+                        v-bind:id="`${item}`"
                         height="100"
                       />
                     </div>
@@ -61,6 +62,7 @@ export default {
   data: () => ({
     name: "",
     img: "",
+    preSelect: null,
     characters: [
       "pikachu",
       "bullbasaur",
@@ -87,7 +89,7 @@ export default {
         });
         return false;
       }
-      
+
       return true;
     },
     enter() {
@@ -114,6 +116,13 @@ export default {
     },
     select(item) {
       this.img = item;
+      if (this.preSelect != null) {
+        let preImg = document.getElementById(this.preSelect);
+        preImg.style.backgroundColor = "white";
+      }
+      let img = document.getElementById(item);
+      img.style.backgroundColor = "skyblue";
+      this.preSelect = item;
     },
   },
 };

@@ -39,7 +39,8 @@ def ranking(request):
             data = {'cnt':cnt, 'username': curr_user.username}
     return Response(data)
 
-
+def index(request):
+    return render(request, 'index.html') 
 
 @api_view(['POST','GET'])
 def check_duplicate(request):
