@@ -69,7 +69,7 @@ export default {
   data: () => ({
     result: [],
     name: "",
-    isFalse: false,
+    isFalse: true,
     score: 0,
     targetScore: 0,
     numList: [1, 2, 3, 4, 5, 6, 7],
@@ -99,7 +99,8 @@ export default {
         .post(url, param)
         .then(function (response) {
           let num = response.data;
-          console.log("최초", num)
+          // console.log("최초", num);
+          vm.isFalse = false;
           vm.result.push(num);
         })
         .catch(function (response) {
@@ -109,16 +110,18 @@ export default {
     getData(item) {
       let url = "http://127.0.0.1:8000/predict/";
       const vm = this;
+      vm.isFalse = true;
       let param = {
         num: item,
         start: false,
       };
-      console.log('param', param)
+
       axios
         .post(url, param)
         .then(function (response) {
           let num = response.data;
-          console.log("다음", num)
+          // console.log("다음", num);
+          vm.isFalse = false;
           vm.result.push(num);
         })
         .catch(function (response) {
@@ -135,7 +138,7 @@ export default {
       axios
         .post(url, param)
         .then(function (response) {
-          lconsole.log(response);
+          console.log(response);
         })
         .catch(function (response) {
           console.log("fail");
@@ -196,5 +199,4 @@ button {
   border-color: rgba(65, 132, 234, 0.75);
   border-width: 3px;
 }
-
 </style>
