@@ -5,6 +5,18 @@ from .models import User, Result
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+# ML 사용 위한 import
+import random
+import numpy as np
+import torch
+from torch import nn
+from torch.utils.data import TensorDataset, DataLoader
+from torch.autograd import Variable
+from torchvision import datasets, transforms
+
+from .AImodel import statistical
+from .utils import get_hyp, get_device, make_data, seq_data, train_model
+
 class UserViewSet(viewsets.ModelViewSet):
     # queryset = User.objects.all()
     queryset = User.objects.order_by('-score', '-id')[:10]
@@ -63,3 +75,34 @@ def min_score(request):
 def index(request):
     return render(request, 'index.html') 
 
+
+# device = get_device()
+# seed, data_dim, seq_length, hidden_dim, output_dim, learning_rate, epochs, batch_size, probability = get_hyp()
+
+# a = make_data(data_dim=data_dim, SEED=seed)
+# b = seq_data(a, window=seq_length, data_dim=data_dim, batch_size=50, device=device)
+# c = statistical(input_dim=data_dim, hidden_dim=hidden_dim, seq_len=seq_length, output_dim=output_dim, layers=1, p=probability)
+
+a = make_data()
+b = seq_data(a)
+c = statistical()
+
+@api_view(['POST','GET'])
+def predict(request):
+    global a, b, c
+    start = request.data.get('start')
+    num = request.data.get('num')
+
+    if start:
+        # c, predict = train_model(c,b,epochs=epochs,lr=learning_rate)
+        c, predict = train_model(c,b)
+        return Response(predict)
+
+    else:
+        # a = make_data(data=a, data_dim=data_dim, SEED=seed, new=num)
+        # b = seq_data(a, window=seq_length, data_dim=data_dim, batch_size=50, device=device)
+        # c, predict = train_model(c,b,epochs=epochs,lr=learning_rate)
+        a = make_data(data=a, new=num)
+        b = seq_data(a)
+        c, predict = train_model(c,b)
+        return Response(predict)

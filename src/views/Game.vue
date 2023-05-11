@@ -9,14 +9,6 @@
       </h2>
     </div>
 
-    <!-- <v-btn
-              @click="
-                play(
-                  'http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3'
-                )
-              "
-            /> -->
-
     <div class="buttons">
       <div class="card">
         <div class="card-body">
@@ -94,11 +86,6 @@ export default {
       });
       console.log(vm.targetScore);
     },
-    play(sound) {
-      var audio = new Audio(sound);
-      audio.play();
-      // audio.pause();
-    },
     move: function () {
       //닉네임 입력 화면으로 이동
       this.$router.push("/intro");
@@ -113,6 +100,7 @@ export default {
         .post(url, param)
         .then(function (response) {
           let num = response.data;
+          console.log("최초", num)
           vm.result.push(num);
         })
         .catch(function (response) {
@@ -130,6 +118,7 @@ export default {
         .post(url, param)
         .then(function (response) {
           let num = response.data;
+          console.log(num)
           vm.result.push(num);
         })
         .catch(function (response) {
@@ -156,7 +145,6 @@ export default {
       const vm = this;
       vm.getData(item);
       let num = this.result.shift();
-      console.log(num);
       if (item != num) {
         let imgArray = new Array();
         imgArray[0] = "04";
