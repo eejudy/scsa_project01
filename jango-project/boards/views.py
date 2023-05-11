@@ -15,7 +15,7 @@ from torch.autograd import Variable
 from torchvision import datasets, transforms
 
 from .AImodel import statistical
-from .utils import get_hyp, get_device, make_data, seq_data, train_model
+from .utils import get_hyp, on_device, make_data, seq_data, train_model
 
 class UserViewSet(viewsets.ModelViewSet):
     # queryset = User.objects.all()
@@ -76,16 +76,16 @@ def index(request):
     return render(request, 'index.html') 
 
 
-# device = get_device()
-# seed, data_dim, seq_length, hidden_dim, output_dim, learning_rate, epochs, batch_size, probability = get_hyp()
+device = on_device()
+seed, data_dim, seq_length, hidden_dim, output_dim, learning_rate, epochs, batch_size, probability = get_hyp()
 
-# a = make_data(data_dim=data_dim, SEED=seed)
-# b = seq_data(a, window=seq_length, data_dim=data_dim, batch_size=50, device=device)
-# c = statistical(input_dim=data_dim, hidden_dim=hidden_dim, seq_len=seq_length, output_dim=output_dim, layers=1, p=probability)
+a = make_data(data_dim=data_dim, SEED=seed)
+b = seq_data(a, window=seq_length, data_dim=data_dim, batch_size=50)
+c = statistical(input_dim=data_dim, hidden_dim=hidden_dim, seq_len=seq_length, output_dim=output_dim, layers=1, p=probability)
 
-a = make_data()
-b = seq_data(a)
-c = statistical()
+# a = make_data()
+# b = seq_data(a)
+# c = statistical()
 
 @api_view(['POST','GET'])
 def predict(request):
@@ -94,15 +94,15 @@ def predict(request):
     num = request.data.get('num')
 
     if start:
-        # c, predict = train_model(c,b,epochs=epochs,lr=learning_rate)
-        c, predict = train_model(c,b)
+        c, predict = train_model(c,b,epochs=epochs,lr=learning_rate,device=device)
+        # c, predict = train_model(c,b)
         return Response(predict)
 
     else:
-        # a = make_data(data=a, data_dim=data_dim, SEED=seed, new=num)
-        # b = seq_data(a, window=seq_length, data_dim=data_dim, batch_size=50, device=device)
-        # c, predict = train_model(c,b,epochs=epochs,lr=learning_rate)
-        a = make_data(data=a, new=num)
-        b = seq_data(a)
-        c, predict = train_model(c,b)
+        a = make_data(data=a, data_dim=data_dim, SEED=seed, new=num)
+        b = seq_data(a, window=seq_length, data_dim=data_dim, batch_size=50)
+        c, predict = train_model(c,b,epochs=epochs,lr=learning_rate,device=device)
+        # a = make_data(data=a, new=num)
+        # b = seq_data(a)
+        # c, predict = train_model(c,b)
         return Response(predict)

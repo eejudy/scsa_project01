@@ -21,7 +21,7 @@ def get_hyp():
     return seed, data_dim, seq_length, hidden_dim, output_dim, learning_rate, epochs, batch_size, probability
 
 
-def get_device():
+def on_device():
     # 디바이스
 
     device = ('cuda' if torch.cuda.is_available() else 'cpu')
@@ -48,7 +48,7 @@ def make_data(data_dim=7, SEED=123, data=None, new=None):
     return newdata
 
 
-def seq_data(sequences, window=100, data_dim=7, batch_size=50, device=None):  # sequences에는 위에서 나오는 newdata를 그대로 넣으면 되며, window=seq_length이다. batchsize는 dataloader때문에 내가 추가한거니까, 헷갈리지 말자.
+def seq_data(sequences, window=100, data_dim=7, batch_size=50):  # sequences에는 위에서 나오는 newdata를 그대로 넣으면 되며, window=seq_length이다. batchsize는 dataloader때문에 내가 추가한거니까, 헷갈리지 말자.
     # 데이터 나누기
     # feature_tensor = 0
     for i in range(len(sequences) - window):
@@ -60,11 +60,11 @@ def seq_data(sequences, window=100, data_dim=7, batch_size=50, device=None):  # 
             label_tensor = torch.cat((label_tensor, sequences[i + window].reshape(1, data_dim)), 0)  # one-hot vector 형식
     # print(sequences.shape, feature_tensor.shape, label_tensor.shape)
         # label_list.append(np.where(sequences[i+window]==1)[0])  # value 형식
-    dataloader = DataLoader(TensorDataset(feature_tensor.to(device), label_tensor.to(device)), batch_size=batch_size, shuffle=False, drop_last=True)
+    dataloader = DataLoader(TensorDataset(feature_tensor, label_tensor), batch_size=batch_size, shuffle=False, drop_last=True)
     return dataloader  # X와 y를 합친 텐서데이터로더 자체를 리턴. 이걸로 모델 트레이닝에 넣으면 된다.
 
 
-def train_model(model, dataloader, epochs=100, lr=1e-2, patience=10):
+def train_model(model, dataloader, epochs=100, lr=1e-2, patience=10, device=None):
     # train
 
     model.train()
@@ -78,6 +78,8 @@ def train_model(model, dataloader, epochs=100, lr=1e-2, patience=10):
 
         for batch_idx, batchs in enumerate(dataloader):
             X, y = batchs
+            X.to(device)
+            y.to(device)
             model.reset_hidden_state()  # 이거 지워보고 유의미한 차이가 나는지 실험해보기
 
             outputs = model(X)
@@ -97,5 +99,7 @@ def train_model(model, dataloader, epochs=100, lr=1e-2, patience=10):
     model.eval()
     newX = torch.concat((X[-1][1:],y[-1:]))
     newXX = newX.reshape(1,newX.shape[0],newX.shape[1])
+    newXX = model(newXX)
+    # print('예측', newXX.shape, model(newXX))
 
     return model, np.argmax(newXX.cpu().detach().numpy())+1  # 왼쪽의 eval은 tf처럼 점수를 보겠단 뜻이 아니라, train모드와 eval모드로 전환시킨다는 뜻이다. 결국에는 모델 그 자체임.
