@@ -28,9 +28,6 @@ class ResultViewSet(viewsets.ModelViewSet):
     serializer_class = ResultSerializer
     # max_score = User.objects.last()
 
-def index(request):
-    return render(request, 'index.html')    
-
 @api_view(['POST','GET'])
 def ranking(request):
     cnt = 0
@@ -42,11 +39,7 @@ def ranking(request):
             data = {'cnt':cnt, 'username': curr_user.username}
     return Response(data)
 
-@api_view(['POST','GET'])
-def result_test(request):
-    num = request.data.get("num")
-    d = {'num':num}
-    return Response(d)
+
 
 @api_view(['POST','GET'])
 def check_duplicate(request):
@@ -72,9 +65,6 @@ def min_score(request):
         return Response(minn.score)
     return Response(minn)
 
-def index(request):
-    return render(request, 'index.html') 
-
 
 device = on_device()
 seed, data_dim, seq_length, hidden_dim, output_dim, learning_rate, epochs, batch_size, probability = get_hyp()
@@ -82,10 +72,6 @@ seed, data_dim, seq_length, hidden_dim, output_dim, learning_rate, epochs, batch
 a = make_data(data_dim=data_dim, SEED=seed)
 b = seq_data(a, window=seq_length, data_dim=data_dim, batch_size=50)
 c = statistical(input_dim=data_dim, hidden_dim=hidden_dim, seq_len=seq_length, output_dim=output_dim, layers=1, p=probability)
-
-# a = make_data()
-# b = seq_data(a)
-# c = statistical()
 
 @api_view(['POST','GET'])
 def predict(request):
@@ -95,14 +81,10 @@ def predict(request):
 
     if start:
         c, predict = train_model(c,b,epochs=epochs,lr=learning_rate,device=device)
-        # c, predict = train_model(c,b)
         return Response(predict)
 
     else:
         a = make_data(data=a, data_dim=data_dim, SEED=seed, new=num)
         b = seq_data(a, window=seq_length, data_dim=data_dim, batch_size=50)
         c, predict = train_model(c,b,epochs=epochs,lr=learning_rate,device=device)
-        # a = make_data(data=a, new=num)
-        # b = seq_data(a)
-        # c, predict = train_model(c,b)
         return Response(predict)

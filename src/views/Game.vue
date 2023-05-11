@@ -84,7 +84,6 @@ export default {
       axios.get(url).then(function (response) {
         vm.targetScore = response.data;
       });
-      console.log(vm.targetScore);
     },
     move: function () {
       //닉네임 입력 화면으로 이동
@@ -114,11 +113,12 @@ export default {
         num: item,
         start: false,
       };
+      console.log('param', param)
       axios
         .post(url, param)
         .then(function (response) {
           let num = response.data;
-          console.log(num)
+          console.log("다음", num)
           vm.result.push(num);
         })
         .catch(function (response) {

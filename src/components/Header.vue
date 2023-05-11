@@ -3,8 +3,9 @@
     <v-toolbar-title><h1 style="cursor:pointer" @click="move">
       <v-img
           @click="move"
-          :src="require(`../assets/logo/scsa_WGA2.png`)"
-          height="100"
+          :src="require(`../assets/logo/scsa_WGA2.jpg`)"
+          height="80"
+          style="margin-top:10px"
         />
     </h1></v-toolbar-title>
   </v-toolbar>
