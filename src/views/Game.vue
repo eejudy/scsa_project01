@@ -151,7 +151,7 @@ export default {
         imgArray[1] = "05";
         let imgNum = Math.round(Math.random() * 1);
         let target = imgArray[imgNum];
-        intro.setAttribute("src", require(`@/assets/game/g${item}.png`));
+        intro.setAttribute("src", require(`@/assets/game/g${num}.png`));
         setTimeout(
           () =>
             intro.setAttribute("src", require(`@/assets/game/${target}.png`)),
@@ -160,7 +160,7 @@ export default {
         vm.score += 10;
       } else {
         vm.isFalse = true;
-        intro.setAttribute("src", require(`@/assets/game/g${item}.png`));
+        intro.setAttribute("src", require(`@/assets/game/g${num}.png`));
         setTimeout(
           () => intro.setAttribute("src", require("@/assets/game/03.png")),
           1000
