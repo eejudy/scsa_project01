@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializer import UserSerializer, ResultSerializer
-from .models import User, Result
+from .serializer import UserSerializer
+from .models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -18,15 +18,9 @@ from .AImodel import statistical
 from .utils import get_hyp, on_device, make_data, seq_data, train_model
 
 class UserViewSet(viewsets.ModelViewSet):
-    # queryset = User.objects.all()
     queryset = User.objects.order_by('-score', '-id')[:10]
     serializer_class = UserSerializer
-    # max_score = User.objects.last()
 
-class ResultViewSet(viewsets.ModelViewSet):
-    queryset = Result.objects.all()
-    serializer_class = ResultSerializer
-    # max_score = User.objects.last()
 
 @api_view(['POST','GET'])
 def ranking(request):
@@ -39,8 +33,6 @@ def ranking(request):
             data = {'cnt':cnt, 'username': curr_user.username}
     return Response(data)
 
-def index(request):
-    return render(request, 'index.html') 
 
 @api_view(['POST','GET'])
 def check_duplicate(request):
@@ -57,8 +49,7 @@ def check_duplicate(request):
 
 @api_view(['POST','GET'])
 def min_score(request):
-    userdata = User.objects.order_by('id')
-    usercnt = userdata.last()
+    userdata = User.objects.all()
     minn = 0
     if len(userdata)>=10:
         minn_temp = User.objects.order_by('-score')
