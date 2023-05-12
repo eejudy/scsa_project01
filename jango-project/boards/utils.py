@@ -10,7 +10,8 @@ from torchvision import datasets, transforms
 def get_hyp():
     seed = 123
     data_dim = 7
-    seq_length = 100
+    # seq_length = 100
+    seq_length = 30
     hidden_dim = 128  # hidden layer dimension
     output_dim = data_dim
     learning_rate = 1e-2
@@ -37,7 +38,8 @@ def make_data(data_dim=7, SEED=123, data=None, new=None):
         torch.manual_seed(SEED)  # torch tensor seed
         torch.cuda.manual_seed(SEED)  # torch cuda seed
         torch.cuda.manual_seed_all(SEED)  # torch cuda multi-gpu seed
-        newdata = torch.eye(data_dim, dtype=torch.float32, requires_grad=False)[np.random.choice(data_dim, 300)]
+        # newdata = torch.eye(data_dim, dtype=torch.float32, requires_grad=False)[np.random.choice(data_dim, 300)]
+        newdata = torch.eye(data_dim, dtype=torch.float32, requires_grad=False)[np.random.choice(data_dim, 100)]
 
         return newdata
 
