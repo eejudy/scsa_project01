@@ -7,6 +7,7 @@
             class="card"
             style="margin-left: 50px"
             v-for="(item, idx) in topRankers"
+            v-bind:key="`${item}`"
           >
             <div
               v-if="item.username == username"
@@ -76,7 +77,7 @@
                 <th scope="col">점수</th>
               </tr>
             </thead>
-            <tbody v-for="(item, idx) in rankers">
+            <tbody v-for="(item, idx) in rankers"      v-bind:key="`${item}`">
               <tr
                 v-if="item.username == username"
                 style="background-color: rgba(65, 132, 234, 0.75)"
@@ -166,15 +167,11 @@ export default {
         }
       }
     }
-
-    // if (vm.myRank <= 10) {
-      // console.log(vm.myRank)
       const party = new Particle("particle", {
         number: 200,
         colors: ["asd", "bdfs"],
       });
       party.start();
-    // }
   },
   created() {
     const vm = this;

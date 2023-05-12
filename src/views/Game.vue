@@ -86,7 +86,6 @@ export default {
       });
     },
     move: function () {
-      //닉네임 입력 화면으로 이동
       this.$router.push("/intro");
     },
     callF() {
@@ -99,7 +98,6 @@ export default {
         .post(url, param)
         .then(function (response) {
           let num = response.data;
-          // console.log("최초", num);
           vm.isFalse = false;
           vm.result.push(num);
         })
@@ -120,7 +118,6 @@ export default {
         .post(url, param)
         .then(function (response) {
           let num = response.data;
-          // console.log("다음", num);
           vm.isFalse = false;
           vm.result.push(num);
         })
@@ -170,7 +167,6 @@ export default {
         );
         const target = document.getElementById("all_btn");
         target.disabled = true;
-        // 사용자 정보 DB에 저장
         vm.save();
         setTimeout(() => this.$router.push("/rank"), 2000);
       }
